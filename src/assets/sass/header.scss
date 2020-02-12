@@ -1,0 +1,11 @@
+.header{
+  width: 100%;
+  height: rem(90px);
+  border-bottom: rem(4px) solid #f3f3f3;
+  text-align: left;
+  .goback{
+    display: inline-block;
+    padding: rem(20px) 4%;
+    font-size: rem(50px);
+  }
+}

@@ -38,6 +38,7 @@
 import headerNav from '@/components/Header'
 import {getTjSong} from '@/api/index/indexApi.js';
 
+
 export default {
   name: 'MusicDetail',
   data () {
@@ -47,20 +48,26 @@ export default {
     }
   },  
   mounted:function(){
-    // let stime = this.$store.state.music.NowTime;           // 获取当前歌曲的总播放时长
+    let stime = Math.ceil(this.$store.state.music.NowTime);           // 获取当前歌曲的总播放时长
     let etime = this.$store.state.music.EndTime;           // 获取当前歌曲的总播放时长
-    // this.stime = this.getTime(stime);
+    this.stime = this.getTime(stime);
     this.eTime = this.getTime(etime);
   },
   computed: {
     listenSTime(){
       return this.$store.state.music.NowTime;
     },
+    listenETime(){
+      return this.$store.state.music.EndTime;
+    },
   },
   watch:{
     listenSTime:function(stime){                // 监听当前播放进度
       this.sTime = this.getTime(stime);
-    }
+    },
+    listenETime:function(etime){
+      this.eTime = this.getTime(etime);
+    },
   },
   methods:{
     back(){
@@ -151,9 +158,14 @@ export default {
   z-index: 999;
   display: flex;
   border-bottom: 0;
+  .goback{
+    padding: rem(20px) 3%;
+  }
   .musicbox{
     // display: inline-block;
     flex: 1;
+    box-sizing: border-box;
+    padding-right: 3%;
     .title{
       font-size: rem(34px);
       margin: rem(10px) 0 0 !important;

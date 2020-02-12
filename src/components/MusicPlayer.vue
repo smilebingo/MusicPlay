@@ -22,6 +22,8 @@
 <script>
 import {getMusic} from '@/api/index/indexApi.js'
 
+var timer;            // 定时器 用于计算当前音乐时间
+
 export default {
   name: 'App',
   data () {
@@ -77,8 +79,13 @@ export default {
       let audio = document.getElementById("audio");
       if (isPlaying) {
         audio.play();
+        timer = setInterval(() => {
+          this.$store.commit('AddTime');
+        }, 100);
       } else {
         audio.pause();
+        clearInterval(timer);
+        timer = null;
       }
     }
   },

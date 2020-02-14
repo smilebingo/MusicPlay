@@ -72,8 +72,7 @@ let store = new Vuex.Store({
           }
           setTimeout(()=>{
             // 点的是推荐歌曲
-            console.log(state.music.pic)
-            if(state.music.pic = state.musiclist[state.index].al.picUrl){
+            if(state.musiclist[state.index].al != undefined){
               state.index = state.index;
               state.music.id = state.musiclist[state.index].id;
               state.music.pic = state.musiclist[state.index].al.picUrl;
@@ -81,7 +80,13 @@ let store = new Vuex.Store({
               state.music.author = state.musiclist[state.index].ar[0].name;
               state.isPlaying = true;
             }else{
-              console.log("是搜索音乐")
+              state.index = state.index;
+              state.music.id = state.musiclist[state.index].id;
+              state.music.pic = state.musiclist[state.index].artists[0].img1v1Url;
+              state.music.title = state.musiclist[state.index].name;
+              state.music.author = state.musiclist[state.index].artists[0].name;
+              state.music.NowTime = 0;
+              state.isPlaying = true;
             }
           },100)
         }else{                          // 随机播放
@@ -90,7 +95,7 @@ let store = new Vuex.Store({
           state.index = num;
           setTimeout(()=>{
             // 点的是推荐歌曲
-            if(state.music.pic = state.musiclist[state.index].al.picUrl){
+            if(state.music.pic = state.musiclist[state.index].al){
               state.index = state.index;
               state.music.id = state.musiclist[state.index].id;
               state.music.pic = state.musiclist[state.index].al.picUrl;
@@ -98,7 +103,13 @@ let store = new Vuex.Store({
               state.music.author = state.musiclist[state.index].ar[0].name;
               state.isPlaying = true;
             }else{
-              
+              state.index = state.index;
+              state.music.id = state.musiclist[state.index].id;
+              state.music.pic = state.musiclist[state.index].artists[0].img1v1Url;
+              state.music.title = state.musiclist[state.index].name;
+              state.music.author = state.musiclist[state.index].artists[0].name;
+              state.music.NowTime = 0;
+              state.isPlaying = true;
             }
           },100)
         }

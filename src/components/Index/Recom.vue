@@ -65,7 +65,6 @@ export default {
     // 播放音乐
     play(data,index){
       if(this.playlist.tracks != this.$store.state.musiclist){
-        console.log("新数据")
         this.$store.commit("getTjMusicList",this.playlist.tracks); // 将数据传递到全局里面
       }
       this.isplaying = this.$store.state.isPlaying;

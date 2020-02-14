@@ -101,16 +101,30 @@ export default {
       let length = this.$store.state.musiclist.length;  // 当前本地曲库的长度
       if(order == 0){           // 正序播放
         if(index == 0){
-          this.$store.commit('getTjIndex',length - 1);
+          // this.$store.commit('getTjIndex',length - 1);
+          if(this.$store.state.musiclist[length - 1].al != undefined){
+            this.$store.commit('getTjIndex',length - 1);
+          }else{
+            this.$store.commit('getSeachIndex',length - 1);
+          }
         }else{
-          this.$store.commit('getTjIndex',--index);
+          if(this.$store.state.musiclist[index].al != undefined){
+            this.$store.commit('getTjIndex',--index);
+          }else{
+            this.$store.commit('getSeachIndex',--index);
+          }
+          // this.$store.commit('getTjIndex',--index);
         }
       }else if(order == 1){     // 随机播放
         let num = Math.floor(Math.random() * length);
         if(num == index){                               // 重复时 重新选取
           let num = Math.floor(Math.random() * length);
         }
-        this.$store.commit('getTjIndex',num);
+        if(this.$store.state.musiclist[num].al != undefined){
+          this.$store.commit('getTjIndex',num);
+        }else{
+          this.$store.commit('getSeachIndex',num);
+        }
       }
       this.$store.commit('getIsPlaying',true);
     },
@@ -120,16 +134,28 @@ export default {
       let length = this.$store.state.musiclist.length;  // 当前本地曲库的长度
       if(order == 0){                                   // 正序播放
         if(index == length - 1){                        // 当前是最后一首
-          this.$store.commit('getTjIndex',0);
+          if(this.$store.state.musiclist[0].al != undefined){
+            this.$store.commit('getTjIndex',0);
+          }else{
+            this.$store.commit('getSeachIndex',0);
+          }
         }else{
-          this.$store.commit('getTjIndex',++index);
+          if(this.$store.state.musiclist[index].al != undefined){
+            this.$store.commit('getTjIndex',++index);
+          }else{
+            this.$store.commit('getSeachIndex',++index);
+          }
         }
       }else if(order == 1){                             // 随机播放
         let num = Math.floor(Math.random() * length);
         if(num == index){                               // 重复时 重新选取
           let num = Math.floor(Math.random() * length);
         }
-        this.$store.commit('getTjIndex',num);
+        if(this.$store.state.musiclist[num].al != undefined){
+          this.$store.commit('getTjIndex',num);
+        }else{
+          this.$store.commit('getSeachIndex',num);
+        }
       }
       this.$store.commit('getIsPlaying',true);
     },

@@ -13,6 +13,7 @@
         <p class="author">{{item.artists[0].name}} - {{item.album.name}}</p>
       </li>
     </ul>
+    <!-- <infinite-loading v-if="isShow" @infinite="infiniteHandler"></infinite-loading> -->
   </div>
 </template>
 
@@ -31,7 +32,7 @@ export default {
   },
   mounted(){
     this.searchtxt = this.$route.query.keywords;
-    getSearch({keywords:this.searchtxt}).then((res)=>{
+    getSearch({keywords:this.searchtxt,limit:20}).then((res)=>{
       if(res.status == 200){
         this.items = res.data.result.songs;
         if(JSON.stringify(res.data.result.songs) == JSON.stringify(this.$store.state.musiclist)){

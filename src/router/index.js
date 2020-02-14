@@ -2,8 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import Index from '@/components/Index'
+import Mv from '@/components/Mv'
+import Search from '@/components/Search'
+
+import SearchPage from '@/components/Search/SearchPage'
+
 import Recom from '@/components/Index/Recom'
 import MusicDetail from '@/components/Index/MusicDetail'
+import Login from '@/components/Index/Login'
 
 Vue.use(Router)
 
@@ -24,11 +30,26 @@ export default new Router({
       name: 'MusicDetail',
       component: MusicDetail
     },
-    // {
-    //   path: '/recom',
-    //   name: 'Recom',
-    //   component: Recom
-    // },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },
+    {
+      path: '/searchpage',
+      name: 'SearchPage',
+      component: SearchPage
+    },
+    {
+      path: '/mv',
+      name: 'Mv',
+      component: Mv
+    },
     {
       path: '/*',
       redirect:'/index'

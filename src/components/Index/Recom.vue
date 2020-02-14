@@ -43,14 +43,15 @@ export default {
   },
   mounted:function(){
     let songid = this.$route.query.id;
-    let index = this.$store.state.index;
-    this.currentIndex = index;
     // 请求获取列表数据
     getTjSongList({id:songid}).then((res)=>{
       let data = res.data;
       if(data.code == 200){
         this.playlist = data.playlist;
-        this.$store.commit("getTjMusicList",this.playlist.tracks); // 将数据传递到全局里面
+        if(JSON.stringify(this.playlist.tracks) == JSON.stringify(this.$store.state.musiclist)){
+          let index = this.$store.state.index;
+          this.currentIndex = index;
+        }
       }else{
         this.$message({
           message: '歌曲无法播放！',
@@ -63,6 +64,10 @@ export default {
   methods:{
     // 播放音乐
     play(data,index){
+      if(this.playlist.tracks != this.$store.state.musiclist){
+        console.log("新数据")
+        this.$store.commit("getTjMusicList",this.playlist.tracks); // 将数据传递到全局里面
+      }
       this.isplaying = this.$store.state.isPlaying;
       // 当前有音乐在播放
       if(this.isplaying){                 

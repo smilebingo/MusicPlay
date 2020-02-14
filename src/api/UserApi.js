@@ -1,10 +1,4 @@
-import axios from 'axios';
-
-let $https = axios.create({
-  baseURL: 'http://localhost:3000',
-  timeout: 1000,
-  withCredentials: true,
-});
+import {$https} from '@/api/Api.js'
 
 //获取登录状态
 function getStatus(){
@@ -14,16 +8,20 @@ function getStatus(){
   })
 }
 
-// 手机登录
-function getUser(UserPhone,UserPwd){
+function loginout(){
   return $https({
-    method: 'post',
-    url: '/login/cellphone',
-    params: {
-      phone: UserPhone,
-      password: UserPwd
-    }
+    method: 'get',
+    url: '/logout'
   })
 }
 
-export {getStatus,getUser}
+// 手机登录
+function getUser(options){
+  return $https({
+    method: 'post',
+    url: '/login/cellphone',
+    params: options
+  })
+}
+
+export {getStatus,getUser,loginout}

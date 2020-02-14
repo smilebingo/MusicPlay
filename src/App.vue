@@ -61,8 +61,6 @@ export default {
   watch: {
     // 监听当前路由
     $route(e) {
-      // console.log("路由");
-      // console.log(e)
       if (e.name == "Index" || e.name == "Mv" || e.name == "Me") {
         this.tabType = true;
       } else {
@@ -74,22 +72,19 @@ export default {
 
   },
   mounted: function(){
-    // getUser({phone:13421133486,password:123}).then((res)=>{
-    //   console.log(res)
-    // })
-    // console.log(getUser(123))
-    // getStatus().then((res)=>{
-    //   console.log(res)
-    // }).catch((err)=>{
-    //   console.log(err)
-    // })
-    // getUser(13421133486,123).then((res)=>{
-    //   console.log(res)
-    // })
-    // console.log(getUser())
-    // axios.post("http://localhost:3000/login/cellphone?phone=13421133486&password=123").then((res)=>{
-    //   console.log(res)
-    // })
+    getStatus().then((res)=>{
+      // console.log(res);
+      if(res.data.code == 200){
+        this.$store.commit('getLogin',true);
+        let obj = {};
+        obj.id = res.data.profile.userId;
+        obj.name = res.data.profile.nickname;
+        obj.picurl = res.data.profile.avatarUrl;
+        this.$store.commit('getUserMsg',obj);
+      }
+    }).catch((res)=>{
+      
+    })
   },
   components:{
     userBox,musicBox
@@ -109,21 +104,23 @@ export default {
   align-items: center;
   flex-direction: column;
   .userpic {
-    width: rem(150px);
-    height: rem(150px);
+    width: rem(200px);
+    height: rem(200px);
     border-radius: 50%;
     border: rem(3px) solid #b4b4b4;
     position: relative;
     top: rem(-30px);
     display: block;
+    margin: 0 auto;
   }
   .username {
     display: block;
     font-size: rem(30px);
+    text-align: center;
     // margin-bottom: rem(80px);
   }
   .loginbtn {
-    width: 50%;
+    width: 100%;
     height: rem(60px);
     line-height: rem(60px);
     background: #ff1f15;

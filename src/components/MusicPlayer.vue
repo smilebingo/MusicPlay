@@ -1,7 +1,7 @@
 <template>
   <div id="musicPlayer">
-    <div class="nothing" :class="resPath == 'musicdetail' ? 'hidden':''"></div>
-    <footer class="footer" :class="resPath == 'musicdetail' ? 'hidden':''">
+    <div class="nothing" :class="resPath ? 'hidden':''"></div>
+    <footer class="footer" :class="resPath ? 'hidden':''">
       <div class="musicbox">
         <router-link to="./musicdetail" tag="div" class="leftbox">
           <img v-lazy="getPic" alt="" class="pic">
@@ -35,7 +35,11 @@ export default {
   computed: {
     resPath: function() {         // 获取当前路由
       let arr = this.$route.path.split("/")[1];
-      return arr;
+      if(arr == 'musicdetail' || this.$store.state.music.id == '' || arr == 'login' || arr == 'mv'){
+        return true;
+      }else{
+        return false;
+      }
     },
     getPic: function(){           // 获取图片路径
       return this.$store.state.music.pic
@@ -77,16 +81,18 @@ export default {
     },
     listenPlay: function(isPlaying){    // 监听当前播放状态
       let audio = document.getElementById("audio");
-      if (isPlaying) {
-        audio.play();
-        timer = setInterval(() => {
-          this.$store.commit('AddTime');
-        }, 100);
-      } else {
-        audio.pause();
-        clearInterval(timer);
-        timer = null;
-      }
+      setTimeout(()=>{
+        if (isPlaying) {
+          audio.play();
+          timer = setInterval(() => {
+            this.$store.commit('AddTime');
+          }, 100);
+        } else {
+          audio.pause();
+          clearInterval(timer);
+          timer = null;
+        }
+      },200)
     }
   },
   methods:{

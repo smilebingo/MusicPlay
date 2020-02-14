@@ -48,10 +48,6 @@ export default {
       let data = res.data;
       if(data.code == 200){
         this.playlist = data.playlist;
-        if(JSON.stringify(this.playlist.tracks) == JSON.stringify(this.$store.state.musiclist)){
-          let index = this.$store.state.index;
-          this.currentIndex = index;
-        }
       }else{
         this.$message({
           message: '歌曲无法播放！',

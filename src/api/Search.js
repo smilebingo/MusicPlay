@@ -1,5 +1,12 @@
 import {$https} from '@/api/Api.js'
 
+function getHotSearch(options){
+  return $https({
+    method: 'get',
+    url: '/search/hot/detail',
+  })
+}
+
 function getSearch(options){
   return $https({
     method: 'get',
@@ -8,4 +15,4 @@ function getSearch(options){
   })
 }
 
-export {getSearch}
+export {getHotSearch,getSearch}

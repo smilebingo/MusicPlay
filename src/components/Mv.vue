@@ -2,32 +2,31 @@
   <div id="mv">
     <!-- 121 -->
     <ul class="listitem">
-      <li v-for="(item,index) in MvList" :key="index">
-        <section class="tbox" @click="doplay(item.id,index)">
+      <router-link tag="li" to="/Mv/mvdetail"
+      v-for="(item,index) in MvList" :key="index">
+        <section class="tbox">
           <img class="bg" v-lazy="item.cover" alt="" v-if="index != Currindex">
           <section class="doplay" v-if="index != Currindex">
             <i class="iconfont icon-ziyuan"></i>
           </section>
-          <video width="100%" :scr="video.url" :class="videoa(index)" v-if="index == Currindex">
+          <!-- <video width="100%" :scr="video.url" :class="videoa(index)" v-if="index == Currindex">
             <source :src="video.url" type="video/mp4">
-          </video>
+          </video> -->
           <!-- <span class="username">{{item.name}}</span> -->
         </section>
         <section class="mbox">
           <p class="title">{{item.name}}</p>
         </section>
         <section class="bbox">
-          <!-- <img v-lazy="item." alt="" class="userpic"> -->
-          <!-- <p class="username">{{item.}}</p> -->
           <span class="play">播放量：{{item.playCount}}</span>
-          
         </section>
         <!-- <video width="320" height="240">
           <source src="http://vodkgeyttp8.vod.126.net/cloudmusic/NjEyMTk1NjU=/53e130b8d70baee0bd8b2e9e82af173f/41c464580326f3df59d4121c7f08746e.mp4?wsSecret=b5c30b673c4b1a0a72f4259ade3acc1f&wsTime=1581584643" type="video/mp4">
           您的浏览器不支持Video标签。
         </video> -->
-      </li>
+      </router-link>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -58,28 +57,30 @@ export default {
       return "video"+index
     },
     doplay(id,index){
-      this.Currindex = index;
-      getMvUrl({id:id}).then((res)=>{
-        // console.log(res)
-        // this.video.url = res.data.data.url;
+      console.log(111)
+
+      // this.Currindex = index;
+      // getMvUrl({id:id}).then((res)=>{
+      //   // console.log(res)
+      //   // this.video.url = res.data.data.url;
         
-        // this.$refs.video.load()
+      //   // this.$refs.video.load()
 
         
-        this.video.url = res.data.data.url;
-        console.log(this.video.url);
-        let video = document.getElementsByClassName("video"+index);
-        console.log(video)
-        // video.play();
-        // }
-      }).catch(()=>{
-        // this.$message({
-        //   message: '播放失败，请重新点击！',
-        //   center: true,
-        //   customClass:"typebox"
-        // });
-        // this.Currindex = 10000;
-      })
+      //   this.video.url = res.data.data.url;
+      //   console.log(this.video.url);
+      //   let video = document.getElementsByClassName("video"+index);
+      //   console.log(video)
+      //   // video.play();
+      //   // }
+      // }).catch(()=>{
+      //   // this.$message({
+      //   //   message: '播放失败，请重新点击！',
+      //   //   center: true,
+      //   //   customClass:"typebox"
+      //   // });
+      //   // this.Currindex = 10000;
+      // })
     }
   }
 }

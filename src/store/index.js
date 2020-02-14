@@ -25,7 +25,8 @@ let store = new Vuex.Store({
     },
     musiclist:[
       
-    ]
+    ],
+    searchtxt: '',
   },
   getters: {
   },
@@ -124,6 +125,9 @@ let store = new Vuex.Store({
       state.music.title = state.musiclist[data].name;
       state.music.author = state.musiclist[data].artists[0].name;
       state.music.NowTime = 0;
+    },
+    getSearchTxt(state,data){
+      state.searchtxt = data;
     },
   }
 })

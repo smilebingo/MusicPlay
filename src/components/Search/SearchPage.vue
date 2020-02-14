@@ -13,12 +13,13 @@
         <p class="author">{{item.artists[0].name}} - {{item.album.name}}</p>
       </li>
     </ul>
-    <!-- <infinite-loading v-if="isShow" @infinite="infiniteHandler"></infinite-loading> -->
+    <infinite-loading v-if="isShow" @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
 import {getSearch} from '@/api/Search.js';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   data(){
@@ -27,12 +28,14 @@ export default {
       items: [],
       isplaying: false,
       currentIndex: 10000,
+      page: 0,
+      isShow: true,
     }
 
   },
   mounted(){
     this.searchtxt = this.$route.query.keywords;
-    getSearch({keywords:this.searchtxt,limit:20}).then((res)=>{
+    getSearch({keywords:this.searchtxt,limit:10,offset:this.page}).then((res)=>{
       if(res.status == 200){
         this.items = res.data.result.songs;
         if(JSON.stringify(res.data.result.songs) == JSON.stringify(this.$store.state.musiclist)){
@@ -46,14 +49,24 @@ export default {
     back(){
       this.$router.go(-1);
     },
+    infiniteHandler($state){
+      setTimeout(()=>{
+        getSearch({keywords:this.searchtxt,limit:10,offset:this.page+10}).then((res)=>{
+          let data = res.data.result.songs;
+          this.page = this.page + 10;
+          this.items = this.items.concat(data);
+          if(data.length == 0){
+            this.isShow = false;
+            return;
+          }
+          $state.loaded();
+      })
+      },200);
+    },
     dosearch(){
-      getSearch({keywords:this.searchtxt}).then((res)=>{
+      getSearch({keywords:this.searchtxt,limit:20,page:this.page}).then((res)=>{
         if(res.status == 200){
           this.items = res.data.result.songs;
-          if(JSON.stringify(this.items) == JSON.stringify(this.$store.state.musiclist)){
-            let index = this.$store.state.index;
-            this.currentIndex = index;
-          }
         }
       })
     },
@@ -83,6 +96,9 @@ export default {
       this.$store.commit("getSeachIndex",this.currentIndex);   // 将索引传递给全局
     }
   },
+  components:{
+    InfiniteLoading
+  }
 }
 </script>
 

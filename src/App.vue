@@ -95,7 +95,9 @@ export default {
 <style lang="scss">
 @import './assets/sass/base.scss';
 @import "./assets/sass/header.scss";
-
+#app{
+  overflow: hidden;
+}
 // 侧边个人信息盒子
 .userbox {
   width: 100%;

@@ -55,10 +55,16 @@ export default new Router({
       children:[
         {
           path: 'mvdetail',
+          // name: 'Mvdetail',
           component: MvDetail
-        }
+        },
       ]
     },
+    // {
+    //   path: '/mvdetail',
+    //   name: 'Mvdetail',
+    //   component: MvDetail
+    // },
     {
       path: '/me',
       name: 'Me',

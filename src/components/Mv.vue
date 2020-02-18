@@ -1,91 +1,94 @@
 <template>
   <div id="mv">
     <!-- 121 -->
-    <ul class="listitem">
-      <router-link tag="li" to="/Mv/mvdetail"
+    <ul class="listitem" v-if="resPath">
+      <!-- <li @click="doplay(item.id)" v-for="(item,index) in MvList" :key="index"> -->
+      <router-link tag="li" :to="{ path: '/Mv/mvdetail', query: { id: (item.id)}}"
       v-for="(item,index) in MvList" :key="index">
         <section class="tbox">
           <img class="bg" v-lazy="item.cover" alt="" v-if="index != Currindex">
           <section class="doplay" v-if="index != Currindex">
             <i class="iconfont icon-ziyuan"></i>
           </section>
-          <!-- <video width="100%" :scr="video.url" :class="videoa(index)" v-if="index == Currindex">
-            <source :src="video.url" type="video/mp4">
-          </video> -->
-          <!-- <span class="username">{{item.name}}</span> -->
         </section>
         <section class="mbox">
           <p class="title">{{item.name}}</p>
         </section>
         <section class="bbox">
+          <span class="artists">发布人：{{item.artistName}}</span>
           <span class="play">播放量：{{item.playCount}}</span>
         </section>
-        <!-- <video width="320" height="240">
-          <source src="http://vodkgeyttp8.vod.126.net/cloudmusic/NjEyMTk1NjU=/53e130b8d70baee0bd8b2e9e82af173f/41c464580326f3df59d4121c7f08746e.mp4?wsSecret=b5c30b673c4b1a0a72f4259ade3acc1f&wsTime=1581584643" type="video/mp4">
-          您的浏览器不支持Video标签。
-        </video> -->
       </router-link>
     </ul>
-    <router-view></router-view>
+    <router-view v-if="!resPath"></router-view>
+    <infinite-loading v-if="isShow" @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
 import {getMvList,getMvUrl} from '@/api/Mv/Mv.js'
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   name: 'Mv',
   data () {
     return {
-      MvList:'',
-      limit: 10,
+      // hidden: false,
+      MvList: '',
+      isShow: true,
+      limit: 5,
+      page: 10,
       Currindex: 10000,
       video: {
         url:''
       },
     }
   },
+  computed: {
+    // 获取当前路由
+    resPath: function() {
+      let arr = this.$route.path.split("/")[1];
+      // console.log(arr)
+      if(arr == "mv"){
+        this.isShow = true;
+        return true;
+      }else{
+        this.isShow = false;
+        return false;
+      }
+    },
+  },
   mounted(){
     getMvList({limit: this.limit}).then((res)=>{
+      console.log(res.data.data)
       if(res.status == 200){
         this.MvList = res.data.data;
       }
     })
   },
   methods:{
-    videoa(index){
-      return "video"+index
-    },
-    doplay(id,index){
-      console.log(111)
-
-      // this.Currindex = index;
-      // getMvUrl({id:id}).then((res)=>{
-      //   // console.log(res)
-      //   // this.video.url = res.data.data.url;
-        
-      //   // this.$refs.video.load()
-
-        
-      //   this.video.url = res.data.data.url;
-      //   console.log(this.video.url);
-      //   let video = document.getElementsByClassName("video"+index);
-      //   console.log(video)
-      //   // video.play();
-      //   // }
-      // }).catch(()=>{
-      //   // this.$message({
-      //   //   message: '播放失败，请重新点击！',
-      //   //   center: true,
-      //   //   customClass:"typebox"
-      //   // });
-      //   // this.Currindex = 10000;
-      // })
+    infiniteHandler($state){
+      setTimeout(()=>{
+        getMvList({limit:10,offset:this.page+10}).then((res)=>{
+          if(res.status == 200){
+            this.page = this.page +10;
+            this.MvList = this.MvList.concat(res.data.data);
+            if(res.data.data.length == 0){
+              this.isShow = false;
+              return;
+            }
+            $state.loaded();
+          }
+        })
+      },200);
     }
+  },
+  components:{
+    InfiniteLoading
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/sass/base.scss';
 
 .listitem{
@@ -97,11 +100,13 @@ export default {
     padding: rem(30px) 0;
     .tbox{
       width: 90%;
+      height: rem(380px);
       margin: 0 auto;
       overflow: hidden;
       position: relative;
       .bg{
         width: 100%;
+        height: rem(380px);
         border-radius: rem(20px);
         // border: rem(1px) solid #f3f3f3;
       }
@@ -127,6 +132,13 @@ export default {
       padding: rem(30px) 0;
       font-size: rem(32px);
       border-bottom: rem(4px) solid #f3f3f3;
+    }
+    .bbox{
+      width: 90%;
+      margin: rem(20px) auto 0;
+      .play{
+        float: right;
+      }
     }
   }
 }

@@ -35,7 +35,7 @@ export default {
   computed: {
     resPath: function() {         // 获取当前路由
       let arr = this.$route.path.split("/")[1];
-      if(arr == 'musicdetail' || this.$store.state.music.id == '' || arr == 'login' || arr == 'mv'){
+      if(arr == 'musicdetail' || this.$store.state.music.id == '' || arr == 'login' || arr=='Mv'){
         return true;
       }else{
         return false;

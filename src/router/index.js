@@ -7,6 +7,7 @@ import Me from '@/components/Me'
 import Search from '@/components/Search'
 
 import SearchPage from '@/components/Search/SearchPage'
+import SongList from '@/components/Me/SongList'
 
 import Recom from '@/components/Index/Recom'
 import MusicDetail from '@/components/Index/MusicDetail'
@@ -55,7 +56,6 @@ export default new Router({
       children:[
         {
           path: 'mvdetail',
-          // name: 'Mvdetail',
           component: MvDetail
         },
       ]
@@ -69,6 +69,10 @@ export default new Router({
       path: '/me',
       name: 'Me',
       component: Me
+    },
+    {
+      path: '/songlist',
+      component: SongList
     },
     {
       path: '/*',

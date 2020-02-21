@@ -37,6 +37,7 @@ export default {
             obj.name = '尚未登录';
             obj.picurl = '../assets/logo.png';
             this.$store.commit('getUserMsg',obj);
+            this.$store.state.islogin = false;
           }
         })
       } 

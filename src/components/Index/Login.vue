@@ -84,7 +84,7 @@ export default {
   // background: #ff6699;
   margin: rem(200px) auto 0;
   text-align: center;
-  height: rem(300px);
+  height: rem(400px);
   h1{
     margin-bottom: rem(40px);
   }
@@ -109,7 +109,7 @@ export default {
     width: 100%;
     margin-top: rem(16px);
     height: rem(60px);
-    background: #ff1f15;
+    background: #ff1f15;  
     border: 0;
     color: #fff;
     border-radius: rem(10px);
